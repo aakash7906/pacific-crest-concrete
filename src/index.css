@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-display: "Cinzel", serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Brand Navy Tokens */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-border: var(--brand-border);
+
+  /* Light Gray Shade Header Tokens */
+  --color-header: var(--header);
+  --color-header-foreground: var(--header-foreground);
+  --color-header-muted: var(--header-muted);
+  --color-header-border: var(--header-border);
+
+  /* Light Gray Shade Footer Tokens */
+  --color-footer: var(--footer);
+  --color-footer-foreground: var(--footer-foreground);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-border: var(--footer-border);
+  --color-footer-strip: var(--footer-strip);
+
+  /* Light Gray Hero Surface */
+  --color-hero-light: var(--hero-light);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  /* Core Clean Architectural Slate & Pure White */
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  /* Card Surfaces */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  /* Primary (Architectural Graphite Charcoal) */
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+
+  /* Secondary (Cool Light Concrete Gray) */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  /* Muted Text & Backgrounds (Soft Cool Mist Gray) */
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+
+  /* Borders & Inputs (Precision Light Gray Hairlines) */
+  --border: #e2e8f0;
+  --input: #cbd5e1;
+
+  /* Accent Highlight Surfaces (Crisp Concrete Tint) */
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+
+  /* Brand Accent - Luxury Deep Navy Blue */
+  --brand: #1e3a8a;
+  --brand-foreground: #ffffff;
+  --brand-muted: #edf4fc;
+  --brand-border: #cbdcf0;
+
+  /* Light Gray Shade Header Palette */
+  --header: #ffffff;
+  --header-foreground: #0f172a;
+  --header-muted: #64748b;
+  --header-border: #e2e8f0;
+
+  /* Light Gray Shade Footer Palette */
+  --footer: #f1f5f9;
+  --footer-foreground: #0f172a;
+  --footer-muted: #475569;
+  --footer-border: #e2e8f0;
+  --footer-strip: #e2e8f0;
+
+  /* Light Gray Hero Surface */
+  --hero-light: #f8fafc;
+
+  /* Status Colors */
+  --success: #16a34a;
+  --warning: #d97706;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* Ring & Radius */
+  --ring: #1e3a8a;
+  --radius: 0.375rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--input);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
+}
