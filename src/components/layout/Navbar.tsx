@@ -1,13 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import {
   Phone,
-  Mail,
-  ShieldCheck,
   Menu,
   X,
   FileText,
-  MapPin,
 } from 'lucide-react'
 import { COMPANY_INFO, IMAGES } from '../../constants/data'
 import { Button } from '../common/Button'
@@ -16,6 +13,7 @@ import { QuickEstimateModal } from '../common/QuickEstimateModal'
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const location = useLocation()
 
   const navLinks = [
@@ -27,56 +25,78 @@ export function Navbar() {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
+  // Smart pull-off / pull-on on scroll with responsive delta accumulation
+  useEffect(() => {
+    let prevScrollY = window.scrollY
+    let accumulatedDelta = 0
+
+    const handleScroll = () => {
+      const currentScrollY = Math.max(0, window.scrollY)
+
+      // Keep navbar visible if mobile menu is open
+      if (isMobileMenuOpen) {
+        setIsVisible(true)
+        prevScrollY = currentScrollY
+        accumulatedDelta = 0
+        return
+      }
+
+      // Always visible when near top of the page
+      if (currentScrollY <= 30) {
+        setIsVisible(true)
+        prevScrollY = currentScrollY
+        accumulatedDelta = 0
+        return
+      }
+
+      const delta = currentScrollY - prevScrollY
+
+      // Reset accumulated delta when reversing direction
+      if ((delta > 0 && accumulatedDelta < 0) || (delta < 0 && accumulatedDelta > 0)) {
+        accumulatedDelta = 0
+      }
+
+      accumulatedDelta += delta
+
+      // Scroll Down -> pull off (hide)
+      if (accumulatedDelta > 10 && currentScrollY > 40) {
+        setIsVisible(false)
+        accumulatedDelta = 0
+      }
+      // Scroll Up -> pull on (show)
+      else if (accumulatedDelta < -10) {
+        setIsVisible(true)
+        accumulatedDelta = 0
+      }
+
+      prevScrollY = currentScrollY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isMobileMenuOpen])
+
+
+
   return (
     <>
-      {/* Top Utility Bar - Light Shade Luxury Tone */}
-      <div className="bg-secondary/80 text-header-foreground text-xs border-b border-header-border py-2.5 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-4 text-header-muted">
-            <span className="flex items-center gap-1.5 font-medium text-foreground tracking-wide">
-              <ShieldCheck className="w-3.5 h-3.5 text-brand" />
-              <span>{COMPANY_INFO.license}</span>
-            </span>
-            <span className="hidden md:inline text-border">•</span>
-            <span className="hidden md:inline items-center gap-1">
-              <MapPin className="inline w-3 h-3 text-brand mr-1" />
-              Daily Operations: {COMPANY_INFO.serviceCoverage}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-5 ml-auto font-medium text-xs">
-            <a
-              href={`mailto:${COMPANY_INFO.email}`}
-              className="hidden sm:flex items-center gap-1.5 text-header-muted hover:text-brand transition-colors"
-            >
-              <Mail className="w-3.5 h-3.5 text-brand" />
-              <span>{COMPANY_INFO.email}</span>
-            </a>
-            <span className="hidden sm:inline text-border">•</span>
-            <a
-              href={`tel:${COMPANY_INFO.phoneRaw}`}
-              className="flex items-center gap-1.5 text-brand hover:text-foreground transition-colors font-semibold tracking-wider"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>{COMPANY_INFO.phone}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Header - Light Shade Luxury Architectural Nav */}
-      <header className="sticky top-0 z-40 bg-header/95 backdrop-blur-md border-b border-header-border shadow-[0_2px_15px_-4px_rgba(0,0,0,0.04)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 sm:h-24 flex items-center justify-between">
+      {/* Dynamic Smart Header - Luxury Glassmorphic Nav (Pulls off on scroll down, pulls on on scroll up) */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
+          isVisible ? 'translate-y-0' : '-translate-y-full'
+        } bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] supports-[backdrop-filter]:bg-white/75`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 h-14 sm:h-16 flex items-center justify-between">
           {/* Brand Logo (Original High-Res Logo from Live Site) */}
           <Link
             to="/"
             onClick={closeMobileMenu}
-            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md py-1"
+            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md py-0.5"
           >
             <img
               src={IMAGES.logo}
               alt="Pacific Crest Concrete Logo"
-              className="h-11 sm:h-14 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+              className="h-8 sm:h-9.5 w-auto object-contain transition-transform group-hover:scale-[1.02]"
             />
           </Link>
 
@@ -88,9 +108,9 @@ export function Navbar() {
                 <NavLink
                   key={link.path}
                   to={link.path}
-                  className={`relative px-4 py-2 text-xs font-semibold tracking-[0.18em] transition-all rounded-sm ${
+                  className={`relative px-3.5 py-1.5 text-xs font-semibold tracking-[0.16em] transition-all rounded-sm ${
                     isActive
-                      ? 'text-brand font-bold after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:bg-brand'
+                      ? 'text-brand font-bold after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-brand'
                       : 'text-foreground hover:text-brand hover:bg-secondary/50'
                   }`}
                 >
@@ -148,7 +168,7 @@ export function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-b border-header-border bg-header px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-md">
+          <div className="md:hidden border-b border-slate-200/60 bg-white/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-3 animate-in slide-in-from-top-2 duration-200 shadow-md">
             <nav className="flex flex-col space-y-1">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path
@@ -169,7 +189,7 @@ export function Navbar() {
               })}
             </nav>
 
-            <div className="pt-3 border-t border-header-border flex flex-col gap-2">
+            <div className="pt-3 border-t border-slate-200/60 flex flex-col gap-2">
               <Button
                 variant="brand"
                 fullWidth

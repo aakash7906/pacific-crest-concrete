@@ -33,6 +33,8 @@ export const COMPANY_INFO = {
   phone: '(951) 852-0490',
   phoneRaw: '9518520490',
   email: 'info@pacificcrestcon.com',
+  city: 'Menifee',
+  state: 'California',
   address: '26100 Newport Road Suite A12 #302',
   cityStateZip: 'Menifee, California 92584',
   fullAddress: '26100 Newport Road Suite A12 #302 Menifee, California 92584',

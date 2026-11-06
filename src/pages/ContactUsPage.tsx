@@ -52,14 +52,15 @@ export default function ContactUsPage() {
     <div className="space-y-20 sm:space-y-28 pb-20">
       {/* Hero Banner with Original High-Res Background & Central Overlay Card */}
       <section className="relative min-h-[520px] sm:min-h-[580px] flex items-center justify-center p-4 sm:p-8 bg-secondary/30 overflow-hidden border-b border-border">
-        {/* Original High-Res Background Image */}
+        {/* Original High-Res Background Image with Black Transparency (Matching Gallery & Services) */}
         <div className="absolute inset-0 z-0">
           <img
             src={IMAGES.contactBg}
             alt="Pacific Crest Concrete Project Panoramic View"
-            className="w-full h-full object-cover brightness-95"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-2xs" />
+          <div className="absolute inset-0 bg-slate-950/45" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/50" />
         </div>
 
         {/* Central Overlay Card (Preserving all original text with Luxury presentation) */}

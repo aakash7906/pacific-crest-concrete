@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   Phone,
@@ -24,125 +23,175 @@ import { QuickEstimateModal } from '../components/common/QuickEstimateModal'
 
 export default function HomePage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false)
+  const [activeScene, setActiveScene] = useState(0)
+
+  const scenes = [
+    {
+      name: 'Bel-Air Cart Path',
+      image: IMAGES.commercial,
+      caption: 'Specialty traction finish placed on steep hillside',
+    },
+    {
+      name: 'Continuous Pour',
+      image: IMAGES.pour,
+      caption: 'Continuous pump line and finish operations',
+    },
+    {
+      name: 'Hillside Formwork',
+      image: IMAGES.workFormed,
+      caption: 'Precision formwork carpentry & rebar grid',
+    },
+    {
+      name: 'Project Panorama',
+      image: IMAGES.contactBg,
+      caption: 'Commercial & civil infrastructure in Southern California',
+    },
+  ]
 
   return (
     <div className="space-y-20 sm:space-y-28 pb-20">
-      {/* Hero Section - Light Shade Architectural Luxury */}
-      <section className="relative overflow-hidden bg-hero-light border-b border-border py-20 sm:py-28 lg:py-36">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Left Hero Content */}
-            <div className="lg:col-span-7 space-y-7 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-card border border-brand/30 shadow-2xs text-xs font-semibold text-brand tracking-wide">
-                <ShieldCheck className="w-4 h-4 text-brand" />
-                <span>{COMPANY_INFO.license}</span>
-                <span className="text-border">•</span>
-                <span className="text-muted-foreground font-normal">
-                  Southern California
-                </span>
+      {/* Full-Screen Hero Section (Architectural Reference Layout with Equal Left & Right Image Visibility) */}
+      <section className="relative min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)] flex flex-col justify-between overflow-hidden text-white pt-6 sm:pt-8 pb-8 sm:pb-12 px-4 sm:px-8 border-b border-border">
+        {/* Full-Screen Background Image Showcase */}
+        <div className="absolute inset-0 z-0">
+          {scenes.map((scene, idx) => (
+            <img
+              key={scene.name}
+              src={scene.image}
+              alt={scene.name}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                activeScene === idx ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+              }`}
+            />
+          ))}
+          {/* Uniform dark overlays - equal, crystal-clear image visibility on both left and right sides */}
+          <div className="absolute inset-0 bg-slate-950/45" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/50" />
+        </div>
+
+        {/* Top Subtle Meta Bar (Architectural Reference Header) */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full flex items-center justify-between text-[11px] sm:text-xs text-slate-300 font-mono tracking-wider pt-2">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="uppercase tracking-widest font-sans font-medium text-slate-200">
+              {COMPANY_INFO.license}
+            </span>
+          </div>
+
+          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-black/40 backdrop-blur-md border border-white/15 text-[10px] tracking-[0.2em] uppercase font-sans font-semibold text-slate-200">
+            <span>PACIFIC CREST</span>
+            <span className="text-slate-400">•</span>
+            <span>EST. SOUTHERN CA</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="uppercase tracking-widest font-sans font-medium text-slate-200">
+              {COMPANY_INFO.city}, CALIFORNIA
+            </span>
+          </div>
+        </div>
+
+        {/* Main Centered Content (Balanced Left & Right Image Exposure) */}
+        <div className="relative z-10 max-w-4xl mx-auto w-full text-center my-auto py-8 sm:py-14 space-y-6 sm:space-y-7">
+          {/* Eyebrow Tag */}
+          {/* <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium tracking-[0.18em] uppercase text-slate-200">
+            <Award className="w-3.5 h-3.5 text-sky-400" />
+            <span>California C-8 Licensed & Bonded Concrete Contractor</span>
+          </div> */}
+
+          {/* Main Headline */}
+          <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-medium tracking-tight text-white leading-[1.12] drop-shadow-md">
+            Commercial & Residential <br className="hidden sm:inline" />
+            <span className="font-light italic text-slate-200">Concrete Contracting.</span>
+          </h1>
+
+          {/* Action Buttons - Reference Style Solid & Glass Combination */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <button
+              type="button"
+              onClick={() => setIsQuoteOpen(true)}
+              className="inline-flex items-center gap-2.5 h-11 px-6 rounded-sm bg-brand text-brand-foreground font-semibold text-xs tracking-wider uppercase hover:bg-brand/90 transition-all shadow-md cursor-pointer hover:scale-[1.02]"
+            >
+              <span>Request a Free Estimate</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 h-11 px-6 rounded-sm border border-white/30 bg-black/30 backdrop-blur-md text-white hover:bg-white/15 hover:border-white/50 transition-all text-xs font-semibold tracking-wider uppercase cursor-pointer"
+            >
+              <span>Explore Services</span>
+            </Link>
+
+            <a
+              href={`tel:${COMPANY_INFO.phoneRaw}`}
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-sm border border-white/20 bg-black/20 backdrop-blur-md text-white hover:bg-white/10 transition-colors text-xs font-semibold tracking-wider uppercase"
+            >
+              <Phone className="w-3.5 h-3.5 text-sky-400" />
+              <span>{COMPANY_INFO.phone}</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom Row: Key Credentials & Scene Switcher */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full pt-4">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
+            {/* 4 Stats Items */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 max-w-2xl">
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl font-semibold text-white drop-shadow-sm">
+                  10+ Years
+                </p>
+                <p className="text-xs text-slate-300 mt-0.5 tracking-wide">
+                  Industry Experience
+                </p>
               </div>
-
-              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-medium tracking-tight text-foreground leading-[1.12]">
-                Architectural & Commercial Concrete Contracting
-              </h1>
-
-              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
-                With over a decade of industry experience on projects ranging
-                from residential patios to thirteen acre distribution center
-                parking lots, our on and offsite management team is here to
-                support you through any of your project needs.
-              </p>
-
-              {/* Call to Actions */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                <Button
-                  variant="brand"
-                  size="lg"
-                  onClick={() => setIsQuoteOpen(true)}
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
-                  className="w-full sm:w-auto tracking-wider uppercase text-xs"
-                >
-                  Request a Free Estimate
-                </Button>
-                <Link to="/services" className="w-full sm:w-auto">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto border-border hover:border-brand/50 hover:bg-secondary tracking-wider uppercase text-xs"
-                  >
-                    View All Services
-                  </Button>
-                </Link>
-                <a
-                  href={`tel:${COMPANY_INFO.phoneRaw}`}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 h-12 px-4 text-xs font-bold tracking-wider text-muted-foreground hover:text-brand transition-colors uppercase"
-                >
-                  <Phone className="w-3.5 h-3.5 text-brand" />
-                  <span>{COMPANY_INFO.phone}</span>
-                </a>
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl font-semibold text-white drop-shadow-sm">
+                  C-8 #1090874
+                </p>
+                <p className="text-xs text-slate-300 mt-0.5 tracking-wide">
+                  CSLB Licensed & Bonded
+                </p>
               </div>
-
-              {/* Quick Trust Highlights */}
-              <div className="pt-8 border-t border-border grid grid-cols-2 sm:grid-cols-3 gap-6 text-left">
-                <div>
-                  <p className="text-[11px] text-muted-foreground uppercase font-bold tracking-[0.18em]">
-                    Industry Expertise
-                  </p>
-                  <p className="font-serif text-2xl font-semibold text-foreground mt-1">
-                    10+ Years
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Field-proven leadership
-                  </p>
-                </div>
-                <div>
-                  <p className="text-[11px] text-muted-foreground uppercase font-bold tracking-[0.18em]">
-                    Contractor License
-                  </p>
-                  <p className="font-serif text-2xl font-semibold text-foreground mt-1">
-                    C-8 #1090874
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    CSLB licensed & bonded
-                  </p>
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <p className="text-[11px] text-muted-foreground uppercase font-bold tracking-[0.18em]">
-                    Daily Operations
-                  </p>
-                  <p className="font-serif text-2xl font-semibold text-foreground mt-1">
-                    SD to LA
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    California statewide
-                  </p>
-                </div>
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl font-semibold text-white drop-shadow-sm">
+                  SD to LA
+                </p>
+                <p className="text-xs text-slate-300 mt-0.5 tracking-wide">
+                  Daily California Operations
+                </p>
+              </div>
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl font-semibold text-white drop-shadow-sm">
+                  13+ Acres
+                </p>
+                <p className="text-xs text-slate-300 mt-0.5 tracking-wide">
+                  Patios to Distribution Lots
+                </p>
               </div>
             </div>
 
-            {/* Right Hero Visual Showcase (Original High-Res 4K Image) */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative rounded-lg overflow-hidden border border-border shadow-xl bg-card">
-                <img
-                  src={IMAGES.commercial}
-                  alt="Pacific Crest Concrete Cart Path Project"
-                  className="w-full h-[420px] sm:h-[480px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent" />
-
-                <div className="absolute bottom-5 left-5 right-5 p-5 rounded-md bg-card/95 backdrop-blur-md border border-border shadow-md">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand">
-                      Featured Project
-                    </span>
-                    <span className="text-xs text-muted-foreground font-medium">
-                      Bel-Air Country Club
-                    </span>
-                  </div>
-                  <p className="text-sm font-semibold text-foreground mt-1">
-                    Specialty traction finish placed on steep hillside cart path
-                  </p>
-                </div>
+            {/* Scene / Project View Switcher */}
+            <div className="flex items-center gap-2 self-start lg:self-end">
+              <span className="text-xs text-slate-300 tracking-wider uppercase font-medium mr-1 hidden sm:inline drop-shadow-xs">
+                Project View:
+              </span>
+              <div className="inline-flex items-center gap-1.5 p-1 rounded-sm bg-black/40 backdrop-blur-md border border-white/20">
+                {scenes.map((scene, idx) => (
+                  <button
+                    key={scene.name}
+                    type="button"
+                    onClick={() => setActiveScene(idx)}
+                    className={`px-3 py-1.5 rounded-xs text-xs font-medium transition-all cursor-pointer ${
+                      activeScene === idx
+                        ? 'bg-white/25 text-white border border-white/40 font-semibold shadow-xs'
+                        : 'text-slate-300 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {scene.name}
+                  </button>
+                ))}
               </div>
             </div>
           </div>

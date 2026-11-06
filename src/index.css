@@ -140,18 +140,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Luxury Scrollbar */
+/* Auto-Hiding Scrollbar Behavior: Hide default static OS gutters across all browsers */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--secondary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--input);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--brand);
+  display: none; /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
 }

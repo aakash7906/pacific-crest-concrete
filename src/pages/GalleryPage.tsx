@@ -4,11 +4,14 @@ import {
   ZoomIn,
   ArrowRight,
   ShieldCheck,
+  FileText,
+  Phone,
 } from 'lucide-react'
 import {
   FEATURED_PROJECTS,
   GALLERY_ITEMS,
   COMPANY_INFO,
+  IMAGES,
 } from '../constants/data'
 import { Button } from '../components/common/Button'
 import { Card, CardContent } from '../components/common/Card'
@@ -28,23 +31,55 @@ export default function GalleryPage() {
 
   return (
     <div className="space-y-20 sm:space-y-28 pb-20">
-      {/* Header Section - Light Shade Luxury */}
-      <section className="bg-hero-light py-20 sm:py-28 border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 text-center space-y-6">
-          <Badge variant="brand" className="uppercase tracking-[0.25em] text-[11px] font-bold">
-            Project Portfolio & Case Studies
-          </Badge>
+      {/* Header Section - Dark Luxury Editorial (Matching Hero Tone with High Image Visibility & Unified Height) */}
+      <section className="relative min-h-[440px] sm:min-h-[480px] lg:min-h-[500px] flex flex-col justify-center items-center overflow-hidden py-16 sm:py-20 px-4 sm:px-8 text-white border-b border-border">
+        {/* Background Project Image with High-Visibility Overlay (Matching HomePage Hero) */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={IMAGES.commercial}
+            alt="Pacific Crest Concrete Commercial Project Portfolio"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-slate-950/45" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/50" />
+        </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl font-medium text-foreground tracking-tight">
+        <div className="relative z-10 max-w-4xl mx-auto w-full text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium tracking-[0.2em] uppercase text-slate-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span>Project Portfolio & Case Studies</span>
+          </div>
+
+          <h1 className="font-serif text-4xl sm:text-6xl font-medium text-white tracking-tight drop-shadow-md">
             Featured Projects & Our Work
           </h1>
 
           <div className="w-16 h-0.5 bg-brand mx-auto" />
 
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto font-light">
+          <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl mx-auto font-light drop-shadow-sm min-h-[56px] flex items-center justify-center">
             Explore authentic documentation of our commercial and residential
             concrete installations throughout Southern California.
           </p>
+
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <Button
+              variant="brand"
+              onClick={() => setIsQuoteOpen(true)}
+              leftIcon={<FileText className="w-4 h-4" />}
+              className="text-xs tracking-wider uppercase shadow-md hover:scale-[1.02] transition-transform"
+            >
+              Request a Free Estimate
+            </Button>
+            <a href={`tel:${COMPANY_INFO.phoneRaw}`}>
+              <Button
+                variant="outline"
+                leftIcon={<Phone className="w-4 h-4 text-sky-400" />}
+                className="text-xs tracking-wider uppercase border-white/25 bg-black/25 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/40"
+              >
+                Call {COMPANY_INFO.phone}
+              </Button>
+            </a>
+          </div>
         </div>
       </section>
 
